@@ -2,6 +2,6 @@ from tkinter import *
 
 window = Tk()
 window.geometry("500x300")
-window.title("My App")
+window.title("VisionPass")
 
 window.mainloop()
