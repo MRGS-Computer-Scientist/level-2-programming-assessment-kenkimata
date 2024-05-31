@@ -22,10 +22,10 @@ class App(Tk):
         Label(self, text="VisionPass Version 1.01", font="Courier 20 italic", bg='black', fg='white').pack()
         Label(self, text="Enter the number to get password", bg='black', fg='white').pack(pady=3)
         Entry(self, textvariable=self.passlen).pack(pady=3)
-        Button(self, text="Tap to get", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
+        Button(self, text="Generate", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
         Entry(self, textvariable=self.passwrd).pack(pady=3)
-        Button(self, text="Tap to copy clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
-        Button(self, text="BROOO", bg='gray', fg='white').pack(side=LEFT, padx=1)
+        Button(self, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
+        Button(self, text="Example Button", bg='gray', fg='white', width=15, height=2).pack(side=RIGHT, padx=10)  # Adjust size here
 
     def generate_password(self):
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
