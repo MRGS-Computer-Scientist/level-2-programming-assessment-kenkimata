@@ -25,7 +25,7 @@ class App(Tk):
         Button(self, text="Generate", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
         Entry(self, textvariable=self.passwrd).pack(pady=3)
         Button(self, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
-        Button(self, text="Example Button", bg='gray', fg='white', width=15, height=2).pack(side=RIGHT, padx=10)  # Adjust size here
+        Button(self, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(side=LEFT, padx=10)  # Adjust size here
 
     def generate_password(self):
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
