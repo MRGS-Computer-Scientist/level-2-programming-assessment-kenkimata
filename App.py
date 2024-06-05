@@ -25,7 +25,7 @@ class App(Tk):
         Button(self, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
         
         # Create the frame that acts like a menubar
-        menubar_frame = Frame(self, bg='gray', width=150, height=300)
+        menubar_frame = Frame(self, bg='gray', width=150, height=800)
         menubar_frame.pack(side=LEFT, fill=Y)
 
         Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
