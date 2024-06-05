@@ -1,5 +1,3 @@
-# File: App.py
-
 from tkinter import *
 import pyperclip
 import random
@@ -9,7 +7,7 @@ class App(Tk):
         super().__init__()
         self.title("VisionPass Version 1.01")
         self.geometry("800x300")
-        self.configure(bg='black')
+        self.configure(bg='black') 
 
         self.passwrd = StringVar()
         self.passlen = IntVar()
@@ -25,7 +23,12 @@ class App(Tk):
         Button(self, text="Generate", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
         Entry(self, textvariable=self.passwrd).pack(pady=3)
         Button(self, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
-        Button(self, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(side=LEFT, padx=10)  # Adjust size here
+        
+        # Create the frame that acts like a menubar
+        menubar_frame = Frame(self, bg='gray', width=150, height=300)
+        menubar_frame.pack(side=LEFT, fill=Y)
+
+        Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
 
     def generate_password(self):
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
@@ -45,3 +48,7 @@ class App(Tk):
     def copy_to_clipboard(self):
         random_password = self.passwrd.get()
         pyperclip.copy(random_password)
+
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
