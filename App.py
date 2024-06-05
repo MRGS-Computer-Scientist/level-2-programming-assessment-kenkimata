@@ -18,14 +18,14 @@ class App(Tk):
     def create_widgets(self):
         Label(self, text="Password Generator", font="Courier 30 bold", bg='black', fg='white').pack()
         Label(self, text="VisionPass Version 1.01", font="Courier 20 italic", bg='black', fg='white').pack()
-        Label(self, text="Enter the number to get password", bg='black', fg='white').pack(pady=3)
+        Label(self, text="Password Length", bg='black', fg='white').pack(pady=3)
         Entry(self, textvariable=self.passlen).pack(pady=3)
         Button(self, text="Generate", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
         Entry(self, textvariable=self.passwrd).pack(pady=3)
         Button(self, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
         
         # Create the frame that acts like a menubar
-        menubar_frame = Frame(self, bg='gray', width=150, height=800)
+        menubar_frame = Frame(self, bg='gray', width=800, height=800)
         menubar_frame.pack(side=LEFT, fill=Y)
 
         Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
