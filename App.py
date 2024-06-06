@@ -2,6 +2,7 @@ from tkinter import *
 import pyperclip
 import random
 from tkinter import messagebox
+import os
 
 class App(Tk):
     def __init__(self):
@@ -17,12 +18,15 @@ class App(Tk):
         self.create_widgets()
 
     def create_widgets(self):
-
+        # Create the frame that acts like a menubar
         menubar_frame = Frame(self, bg='gray', width=200, height=300)
         menubar_frame.pack(side=LEFT, fill=Y)
 
-        Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
+        # Add buttons to the menu frame
+        Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2, command=self.open_password_manager).pack(padx=10, pady=10)
+        Button(menubar_frame, text="Help", command=self.generate_password, bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
 
+        # Main content frame
         content_frame = Frame(self, bg='black')
         content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
 
@@ -55,6 +59,10 @@ class App(Tk):
     def copy_to_clipboard(self):
         random_password = self.passwrd.get()
         pyperclip.copy(random_password)
+
+    def open_password_manager(self):
+        self.destroy()
+        os.system('python password_manager.py')
 
 if __name__ == "__main__":
     app = App()
