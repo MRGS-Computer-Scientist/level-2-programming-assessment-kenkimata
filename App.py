@@ -35,7 +35,7 @@ class App(Tk):
         Button(content_frame, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(pady=7)
 
     def generate_password(self):
-        if self.passlen.get() > 30:
+        if self.passlen.get() > 100:
             messagebox.showerror("Error", "Password length is too long!")
             return
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
