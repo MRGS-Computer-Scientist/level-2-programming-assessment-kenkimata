@@ -1,6 +1,7 @@
 from tkinter import *
 import pyperclip
 import random
+from tkinter import messagebox
 
 class App(Tk):
     def __init__(self):
@@ -20,10 +21,8 @@ class App(Tk):
         menubar_frame = Frame(self, bg='gray', width=200, height=300)
         menubar_frame.pack(side=LEFT, fill=Y)
 
- 
         Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
 
-    
         content_frame = Frame(self, bg='black')
         content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
 
@@ -36,6 +35,9 @@ class App(Tk):
         Button(content_frame, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(pady=7)
 
     def generate_password(self):
+        if self.passlen.get() > 30:
+            messagebox.showerror("Error", "Password length is too long!")
+            return
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
                  'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
                  'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
