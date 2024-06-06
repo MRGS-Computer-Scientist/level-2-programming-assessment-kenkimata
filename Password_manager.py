@@ -12,21 +12,18 @@ class PasswordManager(Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        # Create the frame that acts like a menubar
+
         menubar_frame = Frame(self, bg='gray', width=200, height=300)
         menubar_frame.pack(side=LEFT, fill=Y)
 
-        # Add buttons to the menu frame
         Button(menubar_frame, text="Password Generator", bg='gray', fg='white', width=15, height=2, command=self.open_password_generator).pack(padx=10, pady=10)
 
-        # Main content frame
         content_frame = Frame(self, bg='black')
         content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
 
         Label(content_frame, text="Password Manager", font="Courier 30 bold", bg='black', fg='white').pack(pady=10)
         Label(content_frame, text="Manage your passwords here", font="Courier 20 italic", bg='black', fg='white').pack(pady=10)
 
-        # Frame for managing passwords
         manage_frame = Frame(content_frame, bg='black')
         manage_frame.pack(pady=20)
 

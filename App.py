@@ -18,15 +18,12 @@ class App(Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        # Create the frame that acts like a menubar
         menubar_frame = Frame(self, bg='gray', width=200, height=300)
         menubar_frame.pack(side=LEFT, fill=Y)
 
-        # Add buttons to the menu frame
         Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2, command=self.open_password_manager).pack(padx=10, pady=10)
         Button(menubar_frame, text="Help", command=self.generate_password, bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
 
-        # Main content frame
         content_frame = Frame(self, bg='black')
         content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
 
