@@ -7,7 +7,7 @@ class App(Tk):
         super().__init__()
         self.title("VisionPass Version 1.01")
         self.geometry("800x300")
-        self.configure(bg='black') 
+        self.configure(bg='black')
 
         self.passwrd = StringVar()
         self.passlen = IntVar()
@@ -16,19 +16,24 @@ class App(Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        Label(self, text="Password Generator", font="Courier 30 bold", bg='black', fg='white').pack()
-        Label(self, text="VisionPass Version 1.01", font="Courier 20 italic", bg='black', fg='white').pack()
-        Label(self, text="Password Length", bg='black', fg='white').pack(pady=3)
-        Entry(self, textvariable=self.passlen).pack(pady=3)
-        Button(self, text="Generate", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
-        Entry(self, textvariable=self.passwrd).pack(pady=3)
-        Button(self, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(side=RIGHT, padx=10)
-        
-        # Create the frame that acts like a menubar
-        menubar_frame = Frame(self, bg='gray', width=800, height=800)
+
+        menubar_frame = Frame(self, bg='gray', width=200, height=300)
         menubar_frame.pack(side=LEFT, fill=Y)
 
+ 
         Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2).pack(padx=10, pady=10)
+
+    
+        content_frame = Frame(self, bg='black')
+        content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
+
+        Label(content_frame, text="Password Generator", font="Courier 30 bold", bg='black', fg='white').pack()
+        Label(content_frame, text="VisionPass Version 1.01", font="Courier 20 italic", bg='black', fg='white').pack()
+        Label(content_frame, text="Password Length", bg='black', fg='white').pack(pady=3)
+        Entry(content_frame, textvariable=self.passlen).pack(pady=3)
+        Button(content_frame, text="Generate", command=self.generate_password, bg='gray', fg='white').pack(pady=7)
+        Entry(content_frame, textvariable=self.passwrd).pack(pady=3)
+        Button(content_frame, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(pady=7)
 
     def generate_password(self):
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
