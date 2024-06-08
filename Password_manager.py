@@ -1,19 +1,22 @@
-from tkinter import *
 import os
+import json
+from tkinter import *
+from tkinter import messagebox
+
+PASSWORDS_FILE = "passwords.json"
 
 class PasswordManager(Tk):
     def __init__(self):
         super().__init__()
         self.title("Password Manager")
-        self.geometry("800x300")
+        self.geometry("800x400")
         self.configure(bg='black')
 
-        self.passwords = []
+        self.passwords = self.load_passwords()
         self.create_widgets()
 
     def create_widgets(self):
-
-        menubar_frame = Frame(self, bg='gray', width=200, height=300)
+        menubar_frame = Frame(self, bg='gray', width=200, height=400)
         menubar_frame.pack(side=LEFT, fill=Y)
 
         Button(menubar_frame, text="Password Generator", bg='gray', fg='white', width=15, height=2, command=self.open_password_generator).pack(padx=10, pady=10)
@@ -39,10 +42,19 @@ class PasswordManager(Tk):
         self.password_entry.grid(row=1, column=2, padx=5)
 
         Button(manage_frame, text="Add", command=self.add_password, bg='gray', fg='white').grid(row=1, column=3, padx=5)
-        Button(manage_frame, text="View", command=self.view_passwords, bg='gray', fg='white').grid(row=2, column=0, columnspan=4, pady=5)
+     
 
-        self.password_list_frame = Frame(content_frame, bg='black')
-        self.password_list_frame.pack(fill=BOTH, expand=True)
+        self.canvas = Canvas(content_frame, bg='black')
+        self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
+
+        self.scrollbar = Scrollbar(content_frame, orient=VERTICAL, command=self.canvas.yview)
+        self.scrollbar.pack(side=RIGHT, fill=Y)
+
+        self.scrollable_frame = Frame(self.canvas, bg='black')
+        self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
     def add_password(self):
         site = self.site_entry.get()
@@ -50,19 +62,31 @@ class PasswordManager(Tk):
         password = self.password_entry.get()
 
         if site and username and password:
-            self.passwords.append((site, username, password))
+            self.passwords.append({"site": site, "username": username, "password": password})
+            self.save_passwords()
             self.site_entry.delete(0, END)
             self.username_entry.delete(0, END)
             self.password_entry.delete(0, END)
+            self.view_passwords()
         else:
             messagebox.showwarning("Input Error", "Please fill in all fields")
 
     def view_passwords(self):
-        for widget in self.password_list_frame.winfo_children():
+        for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
 
-        for idx, (site, username, password) in enumerate(self.passwords):
-            Label(self.password_list_frame, text=f"{idx+1}. {site} - {username} - {password}", bg='black', fg='white').pack(anchor='w')
+        for idx, entry in enumerate(self.passwords):
+            Label(self.scrollable_frame, text=f"{idx+1}. {entry['site']} - {entry['username']} - {entry['password']}", bg='black', fg='white').pack(anchor='w')
+
+    def load_passwords(self):
+        if os.path.exists(PASSWORDS_FILE):
+            with open(PASSWORDS_FILE, "r") as file:
+                return json.load(file)
+        return []
+
+    def save_passwords(self):
+        with open(PASSWORDS_FILE, "w") as file:
+            json.dump(self.passwords, file)
 
     def open_password_generator(self):
         self.destroy()
