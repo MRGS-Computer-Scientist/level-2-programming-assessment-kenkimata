@@ -42,7 +42,7 @@ class PasswordManager(Tk):
         self.password_entry.grid(row=1, column=2, padx=5)
 
         Button(manage_frame, text="Add", command=self.add_password, bg='gray', fg='white').grid(row=1, column=3, padx=5)
-     
+        Button(manage_frame, text="View", command=self.view_passwords, bg='gray', fg='white').grid(row=2, column=0, columnspan=4, pady=5)
 
         self.canvas = Canvas(content_frame, bg='black')
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
