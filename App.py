@@ -6,7 +6,7 @@ import os
 
 class App(Tk):
     def __init__(self):
-        super().__init__()
+        Tk.__init__(self) 
         self.title("VisionPass Version 1.01")
         self.geometry("800x300")
         self.configure(bg='black')
