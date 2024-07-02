@@ -11,21 +11,25 @@ class App(Tk):
         self.geometry("800x300")
         self.configure(bg='black')
 
-        self.passwrd = StringVar()
-        self.passlen = IntVar()
-        self.passlen.set(0)
+        self.passwrd = StringVar()  # String variable to hold the generated password
+        self.passlen = IntVar()  # Integer variable to hold the desired password length
+        self.passlen.set(0)  # Default password length set to 0
 
-        self.create_widgets()
+        self.create_widgets()  # Create the GUI components
 
     def create_widgets(self):
+        # Create the menu frame on the left side
         menubar_frame = Frame(self, bg='gray', width=200, height=300)
         menubar_frame.pack(side=LEFT, fill=Y)
 
+        # Add button to open the password manager
         Button(menubar_frame, text="Password Manager", bg='gray', fg='white', width=15, height=2, command=self.open_password_manager).pack(padx=10, pady=10)
 
+        # Create the content frame on the right side
         content_frame = Frame(self, bg='black')
         content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
 
+        # Add labels, input fields, and buttons for password generation
         Label(content_frame, text="Password Generator", font="Courier 30 bold", bg='black', fg='white').pack()
         Label(content_frame, text="VisionPass Version 1.01", font="Courier 20 italic", bg='black', fg='white').pack()
         Label(content_frame, text="Password Length", bg='black', fg='white').pack(pady=3)
@@ -34,8 +38,9 @@ class App(Tk):
         Entry(content_frame, textvariable=self.passwrd).pack(pady=3)
         Button(content_frame, text="Copy Clipboard", command=self.copy_to_clipboard, bg='gray', fg='white').pack(pady=7)
 
+    # Generates a random password based on the specified length
     def generate_password(self):
-        if self.passlen.get() > 100:
+        if self.passlen.get() > 100:  # Check if the password length is too long
             messagebox.showerror("Error", "Password length is too long!")
             return
         pass1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
@@ -49,13 +54,15 @@ class App(Tk):
                  ']', ]
         password = ""
         for x in range(self.passlen.get()):
-            password = password + random.choice(pass1)
-        self.passwrd.set(password)
+            password = password + random.choice(pass1)  # Append random character to the password
+        self.passwrd.set(password)  # Set the generated password
 
+    # Copies the generated password to the clipboard
     def copy_to_clipboard(self):
         random_password = self.passwrd.get()
         pyperclip.copy(random_password)
 
+    # Opens the password manager
     def open_password_manager(self):
         self.destroy()
         os.system('python password_manager.py')
