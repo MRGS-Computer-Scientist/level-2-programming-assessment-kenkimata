@@ -7,7 +7,7 @@ from cryptography.fernet import Fernet
 PASSWORDS_FILE = "passwords.json"
 KEY_FILE = "secret.key"
 
-# Generate and load encryption key
+# Creates a new encryption key if it doesn't already exist, or loads the existing key from a file. Returns the encryption key.
 def load_key():
     if not os.path.exists(KEY_FILE):
         key = Fernet.generate_key()
@@ -18,13 +18,13 @@ def load_key():
             key = key_file.read()
     return key
 
-# Encrypt the password
+# Encrypts the password using the provided key and returns the encrypted password.
 def encrypt_password(password, key):
     f = Fernet(key)
     encrypted_password = f.encrypt(password.encode())
     return encrypted_password.decode()
 
-# Decrypt the password
+# Decrypts the encrypted password using the provided key and returns the decrypted password.
 def decrypt_password(encrypted_password, key):
     f = Fernet(key)
     decrypted_password = f.decrypt(encrypted_password.encode())
@@ -37,21 +37,23 @@ class PasswordManager(Tk):
         self.geometry("800x400")
         self.configure(bg='black')
 
-        self.key = load_key()
-        print(f"Loaded encryption key: {self.key}")  # Debug statement
-        self.passwords = self.load_passwords()
-        print(f"Loaded passwords: {self.passwords}")  # Debug statement
-        self.create_widgets()
+        self.key = load_key()  # Load the encryption key
+        self.passwords = self.load_passwords()  # Load existing passwords
+        self.create_widgets()  # Create the GUI components
 
     def create_widgets(self):
+        # Create the menu frame on the left side
         menubar_frame = Frame(self, bg='gray', width=200, height=400)
         menubar_frame.pack(side=LEFT, fill=Y)
 
+        # Add button to open the password generator
         Button(menubar_frame, text="Password Generator", bg='gray', fg='white', width=15, height=2, command=self.open_password_generator).pack(padx=10, pady=10)
 
+        # Create the content frame on the right side
         content_frame = Frame(self, bg='black')
         content_frame.pack(side=RIGHT, fill=BOTH, expand=True)
 
+        # Add labels and input fields for managing passwords
         Label(content_frame, text="Password Manager", font="Courier 30 bold", bg='black', fg='white').pack(pady=10)
         Label(content_frame, text="Manage your passwords here", font="Courier 20 italic", bg='black', fg='white').pack(pady=10)
 
@@ -72,6 +74,7 @@ class PasswordManager(Tk):
         Button(manage_frame, text="Add", command=self.add_password, bg='gray', fg='white').grid(row=1, column=3, padx=5)
         Button(manage_frame, text="View", command=self.view_passwords, bg='gray', fg='white').grid(row=2, column=0, columnspan=4, pady=5)
 
+        # Create a canvas and scrollbar for viewing passwords
         self.canvas = Canvas(content_frame, bg='black')
         self.canvas.pack(side=LEFT, fill=BOTH, expand=True)
 
@@ -84,6 +87,7 @@ class PasswordManager(Tk):
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
+    # Adds a new password to the list and encrypts it before saving
     def add_password(self):
         site = self.site_entry.get()
         username = self.username_entry.get()
@@ -91,7 +95,6 @@ class PasswordManager(Tk):
 
         if site and username and password:
             encrypted_password = encrypt_password(password, self.key)
-            print(f"Encrypted password for '{site}': {encrypted_password}")  # Debug statement
             self.passwords.append({"site": site, "username": username, "password": encrypted_password})
             self.save_passwords()
             self.site_entry.delete(0, END)
@@ -101,6 +104,7 @@ class PasswordManager(Tk):
         else:
             messagebox.showwarning("Input Error", "Please fill in all fields")
 
+    # Displays all saved passwords in a scrollable frame
     def view_passwords(self):
         for widget in self.scrollable_frame.winfo_children():
             widget.destroy()
@@ -108,21 +112,23 @@ class PasswordManager(Tk):
         for idx, entry in enumerate(self.passwords):
             try:
                 decrypted_password = decrypt_password(entry['password'], self.key)
-                print(f"Decrypted password for '{entry['site']}': {decrypted_password}")  # Debug statement
                 Label(self.scrollable_frame, text=f"{idx+1}. {entry['site']} - {entry['username']} - {decrypted_password}", bg='black', fg='white').pack(anchor='w')
             except Exception as e:
-                print(f"Failed to decrypt password for '{entry['site']}': {e}")  # Debug statement
+                print(f"Failed to decrypt password for '{entry['site']}': {e}")
 
+    # Loads passwords from a file if it exists
     def load_passwords(self):
         if os.path.exists(PASSWORDS_FILE):
             with open(PASSWORDS_FILE, "r") as file:
                 return json.load(file)
         return []
 
+    # Saves passwords to a file
     def save_passwords(self):
         with open(PASSWORDS_FILE, "w") as file:
             json.dump(self.passwords, file)
 
+    # Opens the password generator
     def open_password_generator(self):
         self.destroy()
         os.system('python app.py')
