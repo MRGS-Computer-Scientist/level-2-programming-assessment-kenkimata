@@ -12,11 +12,13 @@ class App(Tk):
         self.geometry("800x300")
         self.configure(bg="black")
 
+        # Initialize variables
         self.passwrd = StringVar()  # String variable to hold the generated password
         self.passlen = IntVar()  # Integer variable to hold the desired password length
         self.passlen.set(0)  # Default password length set to 0
 
-        self.create_widgets()  # Create the GUI components
+        # Create the GUI components
+        self.create_widgets()
 
     def create_widgets(self):
         # Create the menu frame on the left side
@@ -75,9 +77,13 @@ class App(Tk):
 
     # Generates a random password based on the specified length
     def generate_password(self):
-        if self.passlen.get() > 100:  # Check if the password length is too long
+        if self.passlen.get() == 0:
+            messagebox.showerror("Error", "Password length must be 1-100 characters")
+            return
+        elif self.passlen.get() > 100:
             messagebox.showerror("Error", "Password length is too long!")
             return
+
         pass1 = [
             "a",
             "b",
@@ -161,11 +167,11 @@ class App(Tk):
             "[",
             "]",
         ]
+
         password = ""
-        for x in range(self.passlen.get()):
-            password = password + random.choice(
-                pass1
-            )  # Append random character to the password
+        for _ in range(self.passlen.get()):
+            password += random.choice(pass1)  # Append random character to the password
+
         self.passwrd.set(password)  # Set the generated password
 
     # Copies the generated password to the clipboard
