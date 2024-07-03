@@ -81,7 +81,7 @@ class App(Tk):
             messagebox.showerror("Error", "Password length must be 1-100 characters")
             return
         elif self.passlen.get() > 100:
-            messagebox.showerror("Error", "Password length is too long!")
+            messagebox.showerror("Error", "Password length must be 1-100 characters")
             return
 
         pass1 = [
