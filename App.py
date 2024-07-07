@@ -77,10 +77,18 @@ class App(Tk):
 
     # Generates a random password based on the specified length
     def generate_password(self):
-        if self.passlen.get() == 0:
-            messagebox.showerror("Error", "Password length must be 1-100 characters")
+        try:
+            length = self.passlen.get()
+            if (
+                length < 1 or length > 100
+            ):  # Check if the password length is out of bounds
+                raise ValueError
+        except TclError:  # Handle non-integer input
+            messagebox.showerror(
+                "Error", "Please enter a valid integer for the password length"
+            )
             return
-        elif self.passlen.get() > 100:
+        except ValueError:  # Handle invalid length
             messagebox.showerror("Error", "Password length must be 1-100 characters")
             return
 
@@ -169,7 +177,7 @@ class App(Tk):
         ]
 
         password = ""
-        for _ in range(self.passlen.get()):
+        for _ in range(length):
             password += random.choice(pass1)  # Append random character to the password
 
         self.passwrd.set(password)  # Set the generated password
